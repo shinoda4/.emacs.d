@@ -1,0 +1,11 @@
+
+.DS_Store
+recentf
+elpa/
+tramp
+backups/
+\#*
+\#.*
+auto-save-list/
+.lsp-session-v1
+*~
