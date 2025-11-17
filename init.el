@@ -3,10 +3,20 @@
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
+
+(defun rc/get-default-font ()
+  (cond
+   ((eq system-type 'darwin) "Iosevka-20")))
+
+(add-to-list 'default-frame-alist `(font . ,(rc/get-default-font)))
+
+
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (column-number-mode 1)
+
+(setq compilation-scroll-output 'first-error)
 
 (use-package gruber-darker-theme
   :ensure t
@@ -20,7 +30,6 @@
 (setq display-line-numbers-type 'relative) ;; 或 'visual 或 'relative
 (setq display-line-numbers-width-start t)
 (global-display-line-numbers-mode 1)
-
 
 (setq inhibit-startup-message t)
 (set-face-attribute 'default nil :height 200)
@@ -41,6 +50,7 @@
 (global-set-key (kbd "C-c C-g") 'goto-line)
 (global-set-key (kbd "C-c C-s") 'save-buffer)
 (global-set-key (kbd "C-c C-i") 'imenu)
+(global-set-key (kbd "C-c C-c") 'compile)
 
 
 (require 'package)
@@ -54,6 +64,22 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+(require 'project)
+
+
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (let ((git-root (vc-root-dir)))
+              (when git-root
+                (setq default-directory git-root)))))
+
+
+;; (add-hook 'prog-mode-hook
+;;           (lambda ()
+;;             (let ((proj (project-current)))
+;;               (when proj
+;;                 (setq default-directory (project-root proj))))))
 
 
 (use-package ivy
@@ -91,12 +117,6 @@
   :config
   (add-to-list 'completion-at-point-functions 'cape-file))
 
-(use-package go-mode
-  :ensure t)
-
-(use-package rust-mode
-  :ensure t)
-
 (use-package format-all
   :preface
   (defun ian/format-code ()
@@ -109,16 +129,34 @@
   (global-set-key (kbd "M-F") #'ian/format-code)
   (add-hook 'prog-mode-hook #'format-all-ensure-formatter))
 
+(use-package go-mode
+  :ensure t)
+
+(use-package rust-mode
+  :ensure t)
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1))
+
 
 (use-package lsp-mode
-  :hook ((go-mode rust-mode) . lsp)
+  :hook ((go-ts-mode rust-ts-mode) . lsp)
   :commands lsp
   :bind (:map lsp-mode-map
               ("M-." . lsp-find-definition)
               ("M-," . lsp-find-references))
   :custom
   (lsp-completion-provider :capf)
-  (lsp-ui-doc-position 'at-point))
+  (lsp-ui-doc-position 'at-point)
+  (lsp-enable-completion-at-point nil))
+
+(setq lsp-rust-analyzer-cargo-watch-command "clippy")
+
+
+
+(setq lsp-log-io t)
 
 (use-package lsp-ui
   :commands lsp-ui-mode)
@@ -127,6 +165,18 @@
 (global-set-key (kbd "C-c C-j") 'lsp-ui-imenu)
 (global-set-key (kbd "C-c h") #'lsp-ui-doc-show)
 
+(setq major-mode-remap-alist
+      '((rust-mode . rust-ts-mode)
+        (go-mode . go-ts-mode)))
+
+
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
+	(go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")))
+
+(use-package ace-window
+  :ensure t
+  :bind ("M-p" . ace-window))
 
 
 (load-file "~/.emacs.d/.emacs.custom.el")
