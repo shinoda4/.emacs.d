@@ -51,6 +51,8 @@
 (global-set-key (kbd "C-c C-s") 'save-buffer)
 (global-set-key (kbd "C-c C-i") 'imenu)
 (global-set-key (kbd "C-c C-c") 'compile)
+(global-set-key (kbd "C-c C-t") 'term)
+(global-set-key (kbd "C-c C-q") 'ibuffer)
 
 
 (require 'package)
@@ -64,6 +66,25 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+
+(use-package ibuffer
+
+  :bind ("C-x C-b" . ibuffer))
+
+(setq ibuffer-show-empty-filter-groups nil)
+
+(setq ibuffer-saved-filter-groups
+      '(("default"
+         ("Emacs"
+          (name . "^\\*"))
+         ("Code"
+          (mode . prog-mode))
+         ("Dired"
+          (mode . dired-mode))
+         ("Term"
+          (mode . term-mode)))))
+
 
 (require 'project)
 
