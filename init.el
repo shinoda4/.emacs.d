@@ -48,7 +48,7 @@
 
 (global-set-key (kbd "C-c C-l") 'load-file)
 (global-set-key (kbd "C-c C-g") 'goto-line)
-(global-set-key (kbd "C-c C-s") 'save-buffer)
+;; (global-set-key (kbd "C-c C-s") 'save-buffer)
 (global-set-key (kbd "C-c C-i") 'imenu)
 (global-set-key (kbd "C-c C-c") 'compile)
 (global-set-key (kbd "C-c C-t") 'term)
@@ -67,6 +67,10 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode))
 
 (use-package ibuffer
 
@@ -86,22 +90,26 @@
           (mode . term-mode)))))
 
 
-(require 'project)
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1) 
+  :config
+    (setq projectile-project-root-files-top-down-recurring
+        '(".git"))
+  (setq projectile-enable-caching t)
+  (setq projectile-switch-project-action #'projectile-find-file)
+  (define-key projectile-mode-map (kbd "C-c C-f") 'projectile-find-file)
+  (define-key projectile-mode-map (kbd "M-p f") 'projectile-find-file)
+  )
 
+(defun my/set-default-directory-to-project-root ()
+  "Set `default-directory` to Projectile project root if inside a project."
+  (let ((proj (projectile-project-root)))
+    (when proj
+      (setq default-directory proj))))
 
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (let ((git-root (vc-root-dir)))
-              (when git-root
-                (setq default-directory git-root)))))
-
-
-;; (add-hook 'prog-mode-hook
-;;           (lambda ()
-;;             (let ((proj (project-current)))
-;;               (when proj
-;;                 (setq default-directory (project-root proj))))))
-
+(add-hook 'find-file-hook 'my/set-default-directory-to-project-root)
 
 (use-package ivy
   :ensure t
@@ -114,7 +122,6 @@
 (use-package counsel
   :ensure t
   :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
          ("C-c k" . counsel-rg)))
 
 
@@ -132,6 +139,7 @@
   (corfu-auto-delay 0)
   (corfu-auto-prefix 1))
 
+(global-set-key (kbd "C-c C-F") 'counsel-git)
 
 (use-package cape
   :ensure t
@@ -168,10 +176,24 @@
   :bind (:map lsp-mode-map
               ("M-." . lsp-find-definition)
               ("M-," . lsp-find-references))
+  :config
+  (setq lsp-ui-imenu-window-width 0)
+  (setq truncate-lines t)
+  (global-set-key (kbd "C-c H") #'lsp-describe-thing-at-point)
+  (global-set-key (kbd "C-c C-j") 'lsp-ui-imenu)
+  (global-set-key (kbd "C-c h") #'lsp-ui-doc-show)
+  (global-set-key (kbd "C-c C-p") #'lsp-ui-find-workspace-symbol)
+
   :custom
   (lsp-completion-provider :capf)
   (lsp-ui-doc-position 'at-point)
-  (lsp-enable-completion-at-point nil))
+  (lsp-enable-completion-at-point t))
+
+(add-hook 'lsp-ui-imenu-mode-hook
+          (lambda ()
+            (setq-local truncate-lines t)
+            (redraw-display)))  ;; 强制刷新显示
+
 
 (setq lsp-rust-analyzer-cargo-watch-command "clippy")
 
@@ -182,9 +204,6 @@
 (use-package lsp-ui
   :commands lsp-ui-mode)
 
-(global-set-key (kbd "C-c H") #'lsp-describe-thing-at-point)
-(global-set-key (kbd "C-c C-j") 'lsp-ui-imenu)
-(global-set-key (kbd "C-c h") #'lsp-ui-doc-show)
 
 (setq major-mode-remap-alist
       '((rust-mode . rust-ts-mode)
