@@ -1,0 +1,12 @@
+
+backups/
+
+auto-save-list/
+
+elpa/
+
+tree-sitter/
+
+.DS_Store
+
+
