@@ -122,12 +122,8 @@
 (use-package typescript-mode
   :ensure t)
 
-;; (use-package tsx-mode
-;;   :ensure t)
-
 (add-hook 'rust-mode-hook 'eglot-ensure)
 (add-hook 'typescript-mode-hook 'eglot-ensure)
-;; (add-hook 'tsx-mode-hook 'eglot-ensure)
 
 ;;; Treesitter
 
