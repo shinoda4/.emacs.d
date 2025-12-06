@@ -5,7 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(corfu gruber-darker-theme modus-themes orderless rust-mode tsx-mode
+   '(corfu expand-region lsp-mode modus-themes orderless rust-mode
 	   typescript-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -1,19 +1,20 @@
 
 
+
 (setq custom-file "~/.emacs.d/.emacs.custom.el")
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
-
-;;; Fonts
-
-(defun rc/get-default-font ()
-  (cond
-   ((eq system-type 'darwin) "Iosevka-20")))
-
-(add-to-list 'default-frame-alist `(font . ,(rc/get-default-font)))
-
 ;;; Options
+
+;; (setq mac-command-modifier 'meta)
+;; (setq mac-option-modifier 'super)
+
+(global-auto-revert-mode 1)
+
+(setq global-auto-revert-non-file-buffers t)
+
+(setq confirm-kill-emacs 'yes-or-no-p)
 
 (setq-default case-fold-search t)
 
@@ -26,6 +27,24 @@
 (scroll-bar-mode -1)
 (column-number-mode 1)
 
+(setq inhibit-startup-message t)
+
+;;; Keymaps
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;;; Style
+
+;;; Fonts
+
+(defun rc/get-default-font ()
+  (cond
+   ((eq system-type 'darwin) "Iosevka-20")))
+
+(add-to-list 'default-frame-alist 
+             `(font . ,(rc/get-default-font)))
+
+(add-to-list 'default-frame-alist '(fullscreen . fullboth))
 
 ;;; Hightlight the cursor line
 
@@ -35,8 +54,8 @@
   (global-hl-line-mode))
 
 (custom-set-faces
-  '(hl-line ((t (:background "#3C3C3C"))))) 
-  
+ '(hl-line ((t (:background "#3C3C3C"))))) 
+
 ;;; Packages
 
 (require 'package)
@@ -110,9 +129,10 @@
 
 ;;; Language Support Protocol
 
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               '(typescript-ts-mode . ("typescript-language-server", "--stdio"))))
+(use-package lsp-mode
+  :ensure t
+  :init
+  )
 
 (use-package rust-mode
   :init
@@ -122,11 +142,7 @@
 (use-package typescript-mode
   :ensure t)
 
-(add-hook 'rust-mode-hook 'eglot-ensure)
-(add-hook 'typescript-mode-hook 'eglot-ensure)
-
 ;;; Treesitter
-
 
 (setq major-mode-remap-alist
       '((rust-mode . rust-ts-mode)
@@ -141,6 +157,11 @@
 	(tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")))
 
 (setq treesit-extra-load-path (list "~/.emacs.d/tree-sitter"))
+
+(use-package expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)
+	 ("C--" . er/contract-region)))
 
 ;;; Themes
 
