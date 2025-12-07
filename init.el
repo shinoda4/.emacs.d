@@ -1,14 +1,33 @@
 
-
-
 (setq custom-file "~/.emacs.d/.emacs.custom.el")
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(setq package-enable-at-startup nil)
+
+(straight-use-package 'use-package)
 
 ;;; Options
 
 ;; (setq mac-command-modifier 'meta)
 ;; (setq mac-option-modifier 'super)
+
 
 (global-auto-revert-mode 1)
 
@@ -29,6 +48,10 @@
 
 (setq inhibit-startup-message t)
 
+(setq tab-width 4)
+
+(setq indent-tabs-mode nil)
+
 ;;; Keymaps
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -41,56 +64,44 @@
   (cond
    ((eq system-type 'darwin) "Iosevka-20")))
 
-(add-to-list 'default-frame-alist 
+(add-to-list 'default-frame-alist
              `(font . ,(rc/get-default-font)))
 
-(add-to-list 'default-frame-alist '(fullscreen . fullboth))
+;; (add-to-list 'default-frame-alist '(fullscreen . fullboth))
 
 ;;; Hightlight the cursor line
 
 (use-package hl-line
-  :ensure nil
+  :straight t
   :init
   (global-hl-line-mode))
 
 (custom-set-faces
- '(hl-line ((t (:background "#3C3C3C"))))) 
+ '(hl-line ((t (:background "#3C3C3C")))))
 
 ;;; Packages
-
-(require 'package)
-
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-
-(package-initialize)
-
-(unless package-archive-contents
-  (package-refresh-contents))
-
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(require 'use-package)
-
-(setq use-package-always-ensure t)
 
 ;; (use-package gruber-darker-theme
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'gruber-darker t))
 
+(use-package exec-path-from-shell
+  :straight t
+  :init
+  (exec-path-from-shell-initialize))
+
+
 ;;; Completion
 
 (use-package corfu
+  :straight t
   :custom
   (corfu-cycle t)
   (corfu-auto t)
   (corfu-auto-delay 0.2)
   (corfu-auto-prefix 1)
-  (corfu-auto-trigger ".") ;; Custom trigger characters
+  (corfu-auto-trigger ".")	   ;; Custom trigger characters
   (corfu-quit-no-match 'separator) ;; or t
   
   :init
@@ -100,9 +111,10 @@
   )
 
 (use-package dabbrev
+  :straight t
   ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand))
+	 ("C-M-/" . dabbrev-expand))
   :config
   (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
   (add-to-list 'dabbrev-ignored-buffer-modes 'authinfo-mode)
@@ -113,6 +125,7 @@
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
+  :straight t
   :custom
   ;; (orderless-style-dispatchers '(orderless-affix-dispatch))
   ;; (orderless-component-separator #'orderless-escapable-split-on-space)
@@ -127,46 +140,111 @@
                  (bound-and-true-p vertico--input)
                  (eq (current-local-map) read-passwd-map)))))
 
+;; (use-package puni
+;;   :ensure t
+;;   :hook (prog-mode . puni-mode)
+;; )
+
 ;;; Language Support Protocol
 
 (use-package lsp-mode
-  :ensure t
+  :straight t
   :init
+  :commands lsp
+  :hook ((go-ts-mode rust-ts-mode yaml-ts-mode python-ts-mode typescript-ts-mode tsx-ts-mode) . lsp)
+  :bind (:map lsp-mode-map
+	      ("M-." . lsp-find-definition)
+	      ("M-," . lsp-find-references))
+  :config
+  ;;  (setq lsp-log-io t)
+  (setq lsp-enable-indentation nil)
+
+  ;; :custom
+  ;; (lsp-idle-delay 0.500)
+  ;; (lsp-completion-provider :none)
+  ;; (lsp-headerline-breadcrumb-enable nil))
   )
 
 (use-package rust-mode
+  :straight t
   :init
   ;;  (setq rust-mode-treesitter-derive t)
   )
 
 (use-package typescript-mode
-  :ensure t)
+  :straight t
+  :config
+  )
+
+
+(add-hook 'typescript-ts-mode-hook
+          (lambda ()
+            (setq typescript-ts-mode-indent-offset 4
+                  indent-tabs-mode nil)))
+
+(add-hook 'tsx-ts-mode-hook
+          (lambda ()
+            (setq tsx-ts-mode-indent-offset 4
+                  indent-tabs-mode nil)))
+
+
+(use-package yaml-mode
+  :straight t
+  )
+
+(use-package python-mode
+  :straight t
+  )
+
+;;; Formatting
+
+(straight-use-package 'apheleia)
+
+(apheleia-global-mode +1)
+
+(setq apheleia-formatters
+      '((prettier . ("prettier" "--stdin-filepath" filepath))
+        (black . ("black" "-"))))
+
+(setq apheleia-mode-alist
+      '((typescript-mode . prettier)
+        (python-mode . black)))
+
+
+;;; Flycheck
+
+(use-package flycheck
+  :straight t
+   :init (global-flycheck-mode))
 
 ;;; Treesitter
 
 (setq major-mode-remap-alist
       '((rust-mode . rust-ts-mode)
-	(typescript-mode . typescript-ts-mode)))
+	(typescript-mode . typescript-ts-mode)
+	))
 ;;	(tsx-mode . tsx-ts-mode)))
 
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
 (setq treesit-language-source-alist
       '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
 	(go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
 	(typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
-	(tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")))
+	(tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
+	(python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")))
 
 (setq treesit-extra-load-path (list "~/.emacs.d/tree-sitter"))
 
 (use-package expand-region
-  :ensure t
+  :straight t
   :bind (("C-=" . er/expand-region)
 	 ("C--" . er/contract-region)))
 
 ;;; Themes
 
 (use-package modus-themes
-  :ensure t
+  :straight t
   :demand t
   :init
   (modus-themes-include-derivatives-mode 1)
@@ -177,17 +255,17 @@
   :config
   ;; Your customizations here:
   (setq modus-themes-to-toggle '(modus-operandi modus-vivendi)
-        modus-themes-to-rotate modus-themes-items
-        modus-themes-mixed-fonts t
-        modus-themes-variable-pitch-ui t
-        modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-completions '((t . (bold)))
-        modus-themes-prompts '(bold)
-        modus-themes-headings
-        '((agenda-structure . (variable-pitch light 2.2))
-          (agenda-date . (variable-pitch regular 1.3))
-          (t . (regular 1.15))))
+	modus-themes-to-rotate modus-themes-items
+	modus-themes-mixed-fonts t
+	modus-themes-variable-pitch-ui t
+	modus-themes-italic-constructs t
+	modus-themes-bold-constructs t
+	modus-themes-completions '((t . (bold)))
+	modus-themes-prompts '(bold)
+	modus-themes-headings
+	'((agenda-structure . (variable-pitch light 2.2))
+	  (agenda-date . (variable-pitch regular 1.3))
+	  (t . (regular 1.15))))
 
   (setq modus-themes-common-palette-overrides nil)
 
