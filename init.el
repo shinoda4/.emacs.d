@@ -91,7 +91,6 @@
   :init
   (exec-path-from-shell-initialize))
 
-
 ;;; Completion
 
 (use-package corfu
@@ -151,7 +150,7 @@
   :straight t
   :init
   :commands lsp
-  :hook ((go-ts-mode rust-ts-mode yaml-ts-mode python-ts-mode typescript-ts-mode tsx-ts-mode) . lsp)
+  :hook ((go-ts-mode rust-ts-mode yaml-ts-mode python-ts-mode typescript-ts-mode tsx-ts-mode tex-ts-mode) . lsp)
   :bind (:map lsp-mode-map
 	      ("M-." . lsp-find-definition)
 	      ("M-," . lsp-find-references))
@@ -176,6 +175,14 @@
   :config
   )
 
+(use-package auctex
+  :straight t
+  )
+(setq preview-inhibit t)
+(setq LaTeX-preview-setup nil)
+(setq TeX-engine 'xetex)
+(setq TeX-command-default "XeLaTeX")
+
 
 (add-hook 'typescript-ts-mode-hook
           (lambda ()
@@ -195,6 +202,12 @@
 (use-package python-mode
   :straight t
   )
+
+(use-package tex-mode
+  :straight t
+  )
+
+
 
 ;;; Formatting
 
