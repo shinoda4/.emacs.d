@@ -3,6 +3,14 @@
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
+
+;; (setq initial-frame-alist '((maximized . t))) 
+(setq initial-frame-alist '((fullscreen . fullboth)))
+
+(recentf-mode 1)
+(define-key global-map (kbd "C-c C-r") 'recentf-open-files)
+
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name
@@ -84,16 +92,60 @@
   ;; Capfs and Dabbrev can be used globally (M-/).  See also the customization
   ;; variable `global-corfu-modes' to exclude certain modes.
   (global-corfu-mode)
-  (setq tab-always-indent 'complete)
+  ;; (setq tab-always-indent 'complete)
   ;; Enable optional extension modes:
   ;; (corfu-history-mode)
   ;; (corfu-popupinfo-mode)
   )
 
+
+(require 'eglot)
+
+
 (use-package rust-mode
   :straight t
   )
 
-
-
 (add-hook 'rust-mode-hook 'eglot-ensure)
+
+(use-package elixir-mode
+  :straight t
+  )
+
+(add-hook 'elixir-mode-hook 'eglot-ensure)
+
+
+(add-to-list 'eglot-server-programs '(elixir-mode "/usr/local/elixir-ls/language_server.sh"))
+
+(use-package orderless
+  :straight t
+  
+  :init
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-overrides '((file (styles orderless partial-completion)))))
+
+(use-package vertico
+  :straight t
+  :init
+  (vertico-mode)
+  :bind (:map vertico-map
+              ("DEL" . vertico-directory-delete-char)))
+
+
+(use-package consult
+  :straight t
+  :bind (;; 替代 switch-to-buffer (C-x b)
+         ("C-x b" . consult-buffer)
+         ;; 替代 swiper (C-s)
+         ("C-s" . consult-line)
+         ;; 替代 counsel-imenu (跳转标题)
+         ("M-g i" . consult-imenu)
+         ;; 替代 counsel-recentf (你在上个问题里想要的)
+         ("C-c C-r" . consult-recent-file)
+         ;; 更好的 Yank (粘贴) 历史
+         ("M-y" . consult-yank-pop)))
+
+(use-package marginalia
+  :straight t
+  :init
+  (marginalia-mode))
