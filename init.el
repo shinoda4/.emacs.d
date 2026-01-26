@@ -3,15 +3,15 @@
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
-
 ;; (setq initial-frame-alist '((maximized . t))) 
 (setq initial-frame-alist '((fullscreen . fullboth)))
 
 (recentf-mode 1)
+
 (define-key global-map (kbd "C-c C-r") 'recentf-open-files)
 
-
 (defvar bootstrap-version)
+
 (let ((bootstrap-file
        (expand-file-name
 	"straight/repos/straight.el/bootstrap.el"
@@ -101,7 +101,6 @@
 
 (require 'eglot)
 
-
 (use-package rust-mode
   :straight t
   )
@@ -149,3 +148,35 @@
   :straight t
   :init
   (marginalia-mode))
+(put 'downcase-region 'disabled nil)
+
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
+	(go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
+	(typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
+	(tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
+	(python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")))
+
+(use-package gptel
+  :straight t
+  )
+
+
+;; OPTIONAL configuration
+(setq
+ gptel-model 'mistral:latest
+ gptel-backend (gptel-make-ollama "Ollama"             ;Any name of your choosing
+  :host "localhost:11434"               ;Where it's running
+  :stream t                             ;Stream responses
+  :models '(qwen2.5-coder:1.5b)))          ;List of models
+
+(defun greet ()
+  "Greet the world."
+  (interactive)
+  (insert "Hello, World!"))
+
+(global-set-key (kbd "C-c h") 'greet)
+
+
+
+
