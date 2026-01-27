@@ -3,7 +3,6 @@
 
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
 
-;; (setq initial-frame-alist '((maximized . t))) 
 (setq initial-frame-alist '((fullscreen . fullboth)))
 
 (recentf-mode 1)
@@ -65,21 +64,15 @@
 (add-to-list 'default-frame-alist
 	     `(font . ,(rc/get-default-font)))
 
-
+;; for completion
 (use-package corfu
   :straight t
-  ;; Optional customizations
-  
+
   :custom
   (corfu-auto t)                 
   (corfu-auto-prefix 2)          
   (corfu-auto-delay 0.1)         
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match 'insert) ;; Configure handling of exact matches
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
 
   ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
   ;; :hook ((prog-mode . corfu-mode)
@@ -91,6 +84,7 @@
   ;; Recommended: Enable Corfu globally.  Recommended since many modes provide
   ;; Capfs and Dabbrev can be used globally (M-/).  See also the customization
   ;; variable `global-corfu-modes' to exclude certain modes.
+  
   (global-corfu-mode)
   ;; (setq tab-always-indent 'complete)
   ;; Enable optional extension modes:
@@ -130,18 +124,14 @@
   :bind (:map vertico-map
               ("DEL" . vertico-directory-delete-char)))
 
-
 (use-package consult
   :straight t
-  :bind (;; 替代 switch-to-buffer (C-x b)
+  :bind (
+	 ("C-x f" . consult-find)
          ("C-x b" . consult-buffer)
-         ;; 替代 swiper (C-s)
          ("C-s" . consult-line)
-         ;; 替代 counsel-imenu (跳转标题)
          ("M-g i" . consult-imenu)
-         ;; 替代 counsel-recentf (你在上个问题里想要的)
          ("C-c C-r" . consult-recent-file)
-         ;; 更好的 Yank (粘贴) 历史
          ("M-y" . consult-yank-pop)))
 
 (use-package marginalia
@@ -156,19 +146,6 @@
 	(typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
 	(tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
 	(python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")))
-
-(use-package gptel
-  :straight t
-  )
-
-
-;; OPTIONAL configuration
-(setq
- gptel-model 'mistral:latest
- gptel-backend (gptel-make-ollama "Ollama"             ;Any name of your choosing
-  :host "localhost:11434"               ;Where it's running
-  :stream t                             ;Stream responses
-  :models '(qwen2.5-coder:1.5b)))          ;List of models
 
 (defun greet ()
   "Greet the world."
