@@ -9,7 +9,7 @@
 	 (t (expand-file-name ".emacs.custom.el" user-emacs-directory))
 	 )))
 (load custom-file 'noerror)
-
+(recentf-mode 1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
