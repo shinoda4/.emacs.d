@@ -8,9 +8,7 @@
 	  )
 	 (t (expand-file-name ".emacs.custom.el" user-emacs-directory))
 	 )))
-
 (load custom-file 'noerror)
-
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -20,7 +18,6 @@
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 (setq-default case-fold-search t)
-
 
 (setq tab-width 4)
 (setq inhibit-startup-message t)
@@ -44,8 +41,6 @@
   (insert "Hello World!"))
 
 (global-set-key (kbd "C-c h") 'greet)
-
-
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -75,6 +70,7 @@
 
 (straight-use-package 'rust-mode)
 
+;; support vertical interface of completion or ...
 (use-package vertico
   :straight t
   :init
@@ -82,6 +78,17 @@
   :bind (
 	 :map vertico-map
          ("DEL" . vertico-directory-delete-char)))
+
+;; live preview
+(use-package consult
+  :straight t
+  :bind (
+         ("C-x f" . consult-find)
+         ("C-x b" . consult-buffer)
+         ("C-s" . consult-line)
+         ("M-g i" . consult-imenu)
+         ("C-c C-r" . consult-recent-file)
+         ("M-y" . consult-yank-pop)))
 
 ;; using space as separator
 (use-package orderless
@@ -96,3 +103,38 @@
   :straight t
   :init
   (marginalia-mode))
+
+;; for completion
+(use-package corfu
+  :straight t
+
+  :custom
+  (corfu-auto t)
+  (corfu-auto-prefix 2)
+  (corfu-auto-delay 0.1)
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  :init
+
+  ;; Recommended: Enable Corfu globally.  Recommended since many modes provide
+  ;; Capfs and Dabbrev can be used globally (M-/).  See also the customization
+  ;; variable `global-corfu-modes' to exclude certain modes.
+
+  (global-corfu-mode)
+  ;; (setq tab-always-indent 'complete)
+  ;; Enable optional extension modes:
+  ;; (corfu-history-mode)
+  ;; (corfu-popupinfo-mode)
+  )
+
+;; put file path into corfu for completion
+(use-package cape
+  :straight t)
+
+(add-to-list 'completion-at-point-functions #'cape-file)
+
