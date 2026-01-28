@@ -1,4 +1,12 @@
 
+;; User defined keymaps should after C-x r <KEY>.
+
+(add-to-list 'exec-path "/usr/local/bin")
+(setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+
+(add-to-list 'exec-path "/Users/carl/.local/bin")
+(setenv "PATH" (concat "/Users/carl/.local/bin:" (getenv "PATH")))
+
 (setq custom-file
       (if (getenv "XDG_CONFIG_HOME")
 	  (expand-file-name "emacs/.emacs.custom.el" (getenv "XDG_CONFIG_HOME"))
@@ -8,6 +16,7 @@
 	  )
 	 (t (expand-file-name ".emacs.custom.el" user-emacs-directory))
 	 )))
+
 (load custom-file 'noerror)
 (recentf-mode 1)
 (tool-bar-mode -1)
@@ -15,6 +24,9 @@
 (scroll-bar-mode -1)
 (column-number-mode 1)
 (global-display-line-numbers-mode 1)
+(setq dired-kill-when-opening-new-dired-buffer t)
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 (setq-default case-fold-search t)
@@ -41,6 +53,15 @@
   (insert "Hello World!"))
 
 (global-set-key (kbd "C-c h") 'greet)
+
+
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
+        (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
+        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")))
+
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -87,7 +108,7 @@
          ("C-x b" . consult-buffer)
          ("C-s" . consult-line)
          ("M-g i" . consult-imenu)
-         ("C-c C-r" . consult-recent-file)
+         ("C-x r r" . consult-recent-file)
          ("M-y" . consult-yank-pop)))
 
 ;; using space as separator
@@ -120,12 +141,8 @@
   ;;        (eshell-mode . corfu-mode))
 
   :init
-
-  ;; Recommended: Enable Corfu globally.  Recommended since many modes provide
-  ;; Capfs and Dabbrev can be used globally (M-/).  See also the customization
-  ;; variable `global-corfu-modes' to exclude certain modes.
-
   (global-corfu-mode)
+  
   ;; (setq tab-always-indent 'complete)
   ;; Enable optional extension modes:
   ;; (corfu-history-mode)
@@ -137,4 +154,21 @@
   :straight t)
 
 (add-to-list 'completion-at-point-functions #'cape-file)
+
+(use-package vterm
+  :straight t)
+
+(use-package expand-region
+  :straight t
+  :bind
+  ("C-=" . er/expand-region)
+  ("C-+" . er/contract-region))
+
+(with-eval-after-loxXad 'eglot
+  (add-to-list 'eglot-server-programs
+               `(python-mode . ("ty" "server"))))
+
+(add-hook 'python-mode-hook 'eglot-ensure)
+
+
 
