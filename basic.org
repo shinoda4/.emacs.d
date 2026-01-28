@@ -1,0 +1,12 @@
+
+
+* Introduction of GNU Emacs
+
+GNU Emacs is an editor can edit your code or document. It doesnt like vim's hjkl, you can navigate using short keys.
+
+* Basic Emacs usage
+
+| key     | description                         |
+|---------+-------------------------------------|
+| C-x C-f | For find file or create a new file. |
+
