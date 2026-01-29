@@ -4,3 +4,16 @@ straight
 recentf
 auto-save-list
 eln-cache
+elpa
+dirvish
+*.pdf
+*.tex
+.DS_Store
+.vscode
+.idea
+*.elc
+projects
+*.eld
+tree-sitter
+
+test.*

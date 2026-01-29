@@ -1,9 +1,9 @@
 
-
+(add-to-list 'default-frame-alist '(fullscreen . fullboth))
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'options)
 (require 'keymaps)
-
+(winner-mode 1)
 ;; User defined keymaps should after C-x r <KEY>.
 
 ;; Define a keybinding for hello world.
@@ -85,20 +85,9 @@
   (corfu-auto t)
   (corfu-auto-prefix 2)
   (corfu-auto-delay 0.1)
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-
-  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
-  ;; :hook ((prog-mode . corfu-mode)
-  ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
-
+  (corfu-cycle t)               
   :init
   (global-corfu-mode)
-  
-  ;; (setq tab-always-indent 'complete)
-  ;; Enable optional extension modes:
-  ;; (corfu-history-mode)
-  ;; (corfu-popupinfo-mode)
   )
 
 ;; put file path into corfu for completion
@@ -121,3 +110,12 @@
                `(python-mode . ("ty" "server"))))
 
 (add-hook 'python-mode-hook 'eglot-ensure)
+
+
+(use-package projectile
+  :straight t
+  :init
+  (projectile-mode +1))
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+
