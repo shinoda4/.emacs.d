@@ -24,6 +24,12 @@
 (scroll-bar-mode -1)
 (column-number-mode 1)
 (global-display-line-numbers-mode 1)
+(winner-mode 1)
+
+;; (global-tab-line-mode 1) ;; Enable tab bar
+;; (setq-default visual-line-mode t)
+;; (setq-default truncate-lines t)
+
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
@@ -34,16 +40,29 @@
 (setq tab-width 4)
 (setq inhibit-startup-message t)
 
+(setq org-hide-emphasis-markers t)
+
+(delete-selection-mode 1)
+(setq skeleton-pair t)
+(global-set-key (kbd "~") 'skeleton-pair-insert-maybe)
+
+;; (add-hook 'org-mode-hook 'auto-fill-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+;; (add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook (lambda ()
+  (setq truncate-lines t)))  
 ;; fonts
 
 (defun get-default-font()
   (cond
    ((eq system-type 'darwin)
-    "Iosevka-20")
+    "Iosevka")
    ))
 
 (add-to-list 'default-frame-alist
 	     `(font . ,(get-default-font)))
+
+(set-fontset-font t 'han (font-spec :family "Kaiti SC"))
 
 (setq treesit-language-source-alist
       '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
@@ -52,4 +71,18 @@
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
         (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")))
 
-(provide 'options)
+
+;; (setq mac-command-modifier 'meta)
+;; (setq mac-option-modifier 'super)
+(setq mac-pass-command-to-system nil)
+
+;; (setq eww-search-prefix "https://www.google.com/search?gbv=1&q=")
+
+(global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
+(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+(global-set-key (kbd "C-c f") 'consult-fd)
+
+
+(provide 'basic)
+
+

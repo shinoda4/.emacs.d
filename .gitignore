@@ -17,3 +17,9 @@ projects
 tree-sitter
 
 test.*
+
+multisession
+url
+*.html
+.mc-lists.el
+tramp

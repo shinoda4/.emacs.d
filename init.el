@@ -1,9 +1,9 @@
 
 (add-to-list 'default-frame-alist '(fullscreen . fullboth))
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(require 'options)
-(require 'keymaps)
-(winner-mode 1)
+
+(require 'basic)
+
 ;; User defined keymaps should after C-x r <KEY>.
 
 ;; Define a keybinding for hello world.
@@ -35,11 +35,32 @@
 
 (straight-use-package 'use-package)
 
-(use-package gruber-darker-theme
-  :straight t
-  :config
-  (load-theme 'gruber-darker t)
-  )
+;; (use-package gruber-darker-theme
+;;   :straight t
+;;   :config
+;;   (load-theme 'gruber-darker t)
+;;   )
+
+;; (use-package doom-themes
+;;   :straight t
+;;   :custom
+;;   ;; Global settings (defaults)
+;;   (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
+;;   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
+;;   ;; for treemacs users
+;;   (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+;;   :config
+;;   (load-theme 'doom-one t)
+
+;;   ;; Enable flashing mode-line on errors
+;;   (doom-themes-visual-bell-config)
+;;   ;; Enable custom neotree theme (nerd-icons must be installed!)
+;;   (doom-themes-neotree-config)
+;;   ;; or for treemacs users
+;;   (doom-themes-treemacs-config)
+;;   ;; Corrects (and improves) org-mode's native fontification.
+;;   (doom-themes-org-config))
+
 
 (straight-use-package 'rust-mode)
 
@@ -119,3 +140,30 @@
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 
+(use-package smartparens
+  :straight t
+  :hook (prog-mode org-mode)
+  :config
+  (require 'smartparens-config)
+  (sp-local-pair 'org-mode "*" "*"))
+
+(use-package impatient-mode
+  :straight t)
+
+(use-package multiple-cursors
+  :straight t
+  :bind (
+    ("C-S-c C-S-c" . mc/edit-lines)          ; 选中区域后，在每一行末尾加光标
+    ("C->"         . mc/mark-next-like-this) ; 选中一个词，按一下多选一个相同的
+    ("C-<"         . mc/mark-previous-like-this)
+    ("C-c C-<"     . mc/mark-all-like-this)  ; 一次性选中全文所有相同的词
+    ))
+
+(use-package gruvbox-theme
+  :straight t
+)
+(use-package lorem-ipsum
+  :straight t
+  :init
+  (lorem-ipsum-use-default-bindings)
+ )

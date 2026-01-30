@@ -2,11 +2,64 @@
 
 * Introduction of GNU Emacs
 
-GNU Emacs is an editor can edit your code or document. It doesnt like vim's hjkl, you can navigate using short keys.
+GNU Emacs is an editor can edit your code or document. It doesnt like
+vim's hjkl, you can navigate using short keys.
+
+#+begin_src elisp
+  (setq org-hide-emphasis-markers t)
+
+  (winner-mode 1)
+
+  (delete-selection-mode 1)
+  (setq skeleton-pair t)
+  (global-set-key (kbd "~") 'skeleton-pair-insert-maybe)
+#+end_src
+
+
+#+begin_src elisp
+  (require 'org-tempo) ;; Press TAB after insert <s
+#+end_src
+
+* Insert Python code
+
+Press ~C-c '~ to open a buffer that has full features to the language.
+
+#+begin_src python
+  def main():
+      print("Hello World!")
+      pass
+#+end_src
 
 * Basic Emacs usage
 
 | key     | description                         |
 |---------+-------------------------------------|
-| C-x C-f | For find file or create a new file. |
+| ~C-x C-f~ | For find file or create a new file. |
 
+~^~ runs the command Info-up (found in Info-mode-map), which is an
+interactive byte-code-function in ‘info.el’.
+
+~C-M-a~ runs the command beginning-of-defun (found in global-map), which is an interactive byte-code-function in ‘lisp.el’.
+
+~C-M-e~ runs the command end-of-defun (found in global-map), which is an interactive byte-code-function in ‘lisp.el’.
+
+~M-e~ runs the command forward-sentence (found in global-map), which is an interactive byte-code-function in ‘paragraphs.el’.
+
+~M-a~ runs the command org-backward-sentence (found in org-mode-map), which is an interactive byte-code-function in ‘org.el’.
+
+~C-M-f~ runs the command forward-sexp (found in global-map), which is an
+interactive byte-code-function in ‘lisp.el’.
+
+~C-M-b~ runs the command backward-sexp (found in global-map), which is
+an interactive byte-code-function in ‘lisp.el’.
+
+~C-M-p~ runs the command backward-list (found in global-map), which is
+an interactive byte-code-function in ‘lisp.el’.
+
+~C-M-n~ runs the command forward-list (found in global-map), which is an
+interactive byte-code-function in ‘lisp.el’.
+
+~C-t~ runs the command transpose-chars (found in global-map), which is an interactive byte-code-function in ‘simple.el’.
+
+~C-M-%~ runs the command query-replace-regexp (found in global-map),
+which is an interactive byte-code-function in ‘replace.el’.
