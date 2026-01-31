@@ -62,6 +62,10 @@
 ;;   (doom-themes-org-config))
 
 
+(use-package magit
+  :straight t
+  )
+
 (straight-use-package 'rust-mode)
 
 ;; support vertical interface of completion or ...
