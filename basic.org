@@ -63,3 +63,16 @@ interactive byte-code-function in ‘lisp.el’.
 
 ~C-M-%~ runs the command query-replace-regexp (found in global-map),
 which is an interactive byte-code-function in ‘replace.el’.
+
+~C-c C-x C-f~ runs the command org-emphasize (found in org-mode-map),
+which is an interactive byte-code-function in ‘org.el’.
+
+~C-M-d~ runs the command down-list (found in global-map), which is an
+interactive byte-code-function in ‘lisp.el’.
+
+~C-M-u~ runs the command backward-up-list (found in global-map), which
+is an interactive byte-code-function in ‘lisp.el’.
+
+~C-x C-p~ runs the command mark-page (found in global-map), which is an
+interactive byte-code-function in ‘page.el’.
+

@@ -103,12 +103,17 @@
   :straight t
 
   :custom
-  (corfu-auto t)
+  ;; (corfu-auto t)
+  (corfu-auto nil)
+  
   (corfu-auto-prefix 2)
   (corfu-auto-delay 0.1)
   (corfu-cycle t)               
   :init
   (global-corfu-mode)
+  :bind
+  (:map global-map
+        ("M-i" . completion-at-point))
   )
 
 ;; put file path into corfu for completion
@@ -140,12 +145,11 @@
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 
-(use-package smartparens
-  :straight t
-  :hook (prog-mode org-mode)
-  :config
-  (require 'smartparens-config)
-  (sp-local-pair 'org-mode "*" "*"))
+;; (use-package smartparens
+;;   :straight t
+;;   :hook (prog-mode org-mode)
+;;   :config
+;;   (require 'smartparens-config))
 
 (use-package impatient-mode
   :straight t)
