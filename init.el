@@ -174,4 +174,13 @@
   :straight t
   :init
   (lorem-ipsum-use-default-bindings)
- )
+  )
+
+(use-package paredit
+  :straight t
+  :hook ((emacs-lisp-mode lisp-mode) . enable-paredit-mode)
+  :config
+  (bind-key "RET" #'newline-and-indent paredit-mode-map)
+  )
+
+

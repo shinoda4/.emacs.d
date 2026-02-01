@@ -27,10 +27,11 @@
 (column-number-mode 1)
 (global-display-line-numbers-mode 1)
 (winner-mode 1)
+(electric-pair-mode 1)
 
 ;; (global-tab-line-mode 1) ;; Enable tab bar
 ;; (setq-default visual-line-mode t)
-;; (setq-default truncate-lines t)
+(setq-default truncate-lines t)
 
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq global-auto-revert-non-file-buffers t)
@@ -38,7 +39,7 @@
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 (setq-default case-fold-search t)
-
+(setq-default indent-tabs-mode nil)
 (setq tab-width 4)
 (setq inhibit-startup-message t)
 
@@ -53,7 +54,8 @@
 (add-hook 'org-mode-hook 'visual-line-mode)
 ;; (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'org-mode-hook (lambda ()
-  (setq truncate-lines t)))  
+  (setq truncate-lines t)))
+
 ;; fonts
 
 ;; (defun get-default-font()
@@ -92,6 +94,8 @@
 (global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
 (global-set-key (kbd "C-c f") 'consult-fd)
 
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier 'super)
 
 (provide 'basic)
 
