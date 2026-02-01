@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: header
+# key: header
+# --
+#+title: ${1:请输入标题}
+#+author: ${2:你的名字}
+#+date: `(format-time-string "%Y-%m-%d")`
+$0

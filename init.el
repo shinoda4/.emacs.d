@@ -107,8 +107,8 @@
   :straight t
 
   :custom
-  ;; (corfu-auto t)
-  (corfu-auto nil)
+  (corfu-auto t)
+  ;; (corfu-auto nil)
   
   (corfu-auto-prefix 2)
   (corfu-auto-delay 0.1)
@@ -182,5 +182,16 @@
   :config
   (bind-key "RET" #'newline-and-indent paredit-mode-map)
   )
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(elixir-mode "/usr/local/elixir-ls/language_server.sh"))
+  )
 
+
+(use-package yasnippet
+  :straight t
+  :diminish yas-minor-mode 
+  :config
+  (setq yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
+  (yas-reload-all)       
+  (yas-global-mode 1))
 

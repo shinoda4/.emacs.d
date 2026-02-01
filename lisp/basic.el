@@ -19,36 +19,32 @@
 	 (t (expand-file-name ".emacs.custom.el" user-emacs-directory))
 	 )))
 
-(load custom-file 'noerror)
-(recentf-mode 1)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
+
 (column-number-mode 1)
-(global-display-line-numbers-mode 1)
-(winner-mode 1)
+(delete-selection-mode 1)
 (electric-pair-mode 1)
-
-;; (global-tab-line-mode 1) ;; Enable tab bar
-;; (setq-default visual-line-mode t)
-(setq-default truncate-lines t)
-
+(global-display-line-numbers-mode 1)
+;; (global-set-key (kbd "*") 'skeleton-pair-insert-maybe)
+(global-set-key (kbd "~") 'skeleton-pair-insert-maybe)
+(load custom-file 'noerror)
+(menu-bar-mode -1)
+(recentf-mode 1)
+(scroll-bar-mode -1)
+(setq auto-revert-verbose nil)
+(setq confirm-kill-emacs 'yes-or-no-p)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq global-auto-revert-non-file-buffers t)
-(setq auto-revert-verbose nil)
-
-(setq confirm-kill-emacs 'yes-or-no-p)
+(setq inhibit-startup-message t)
+;; (setq org-hide-emphasis-markers t)
+(setq skeleton-pair t)
+(setq tab-width 4)
 (setq-default case-fold-search t)
 (setq-default indent-tabs-mode nil)
-(setq tab-width 4)
-(setq inhibit-startup-message t)
-
-(setq org-hide-emphasis-markers t)
-
-(delete-selection-mode 1)
-(setq skeleton-pair t)
-(global-set-key (kbd "~") 'skeleton-pair-insert-maybe)
-(global-set-key (kbd "*") 'skeleton-pair-insert-maybe)
+(setq-default truncate-lines nil)
+(tool-bar-mode -1)
+(winner-mode 1)
+;; (global-tab-line-mode 1) ;; Enable tab bar
+;; (setq-default visual-line-mode t)
 
 ;; (add-hook 'org-mode-hook 'auto-fill-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
@@ -72,7 +68,7 @@
 
 (set-face-attribute 'default nil 
                     :family "TX-02" 
-                    :height 120 
+                    :height 180
                     :width 'ultra-condensed) ; ultra-condensed, condensed, normal, expanded
 
 
@@ -94,8 +90,8 @@
 (global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
 (global-set-key (kbd "C-c f") 'consult-fd)
 
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier 'super)
+;; (setq mac-command-modifier 'meta)
+;; (setq mac-option-modifier 'super)
 
 (provide 'basic)
 
