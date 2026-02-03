@@ -19,6 +19,10 @@
 	 (t (expand-file-name ".emacs.custom.el" user-emacs-directory))
 	 )))
 
+(setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory))))
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "auto-save/" user-emacs-directory) t)))
+
 (column-number-mode 1)
 (delete-selection-mode 1)
 (electric-pair-mode 1)
