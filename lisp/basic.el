@@ -19,7 +19,6 @@
 	 (t (expand-file-name ".emacs.custom.el" user-emacs-directory))
 	 )))
 
-
 (column-number-mode 1)
 (delete-selection-mode 1)
 (electric-pair-mode 1)
@@ -77,7 +76,9 @@
         (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
-        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")))
+        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
+        (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
+        ))
 
 
 ;; (setq mac-command-modifier 'meta)
