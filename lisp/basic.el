@@ -6,8 +6,8 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
 
-(add-to-list 'exec-path "/Users/carl/.local/bin")
-(setenv "PATH" (concat "/Users/carl/.local/bin:" (getenv "PATH")))
+;; (add-to-list 'exec-path "/Users/carl/.local/bin")
+;; (setenv "PATH" (concat "/Users/carl/.local/bin:" (getenv "PATH")))
 
 (setq custom-file
       (if (getenv "XDG_CONFIG_HOME")
@@ -19,9 +19,17 @@
 	 (t (expand-file-name ".emacs.custom.el" user-emacs-directory))
 	 )))
 
-(setq backup-directory-alist `(("." . ,(expand-file-name "backups" user-emacs-directory))))
-(setq auto-save-file-name-transforms
-      `((".*" ,(expand-file-name "auto-save/" user-emacs-directory) t)))
+(let ((backup-dir (expand-file-name "backups/" user-emacs-directory))
+      (auto-save-dir (expand-file-name "auto-save/" user-emacs-directory)))
+
+  (unless (file-exists-p backup-dir)
+    (make-directory backup-dir t))
+  (unless (file-exists-p auto-save-dir)
+    (make-directory auto-save-dir t))
+
+  (setq backup-directory-alist `(("." . ,backup-dir)))
+  (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
+
 
 (column-number-mode 1)
 (delete-selection-mode 1)
@@ -33,6 +41,7 @@
 (menu-bar-mode -1)
 (recentf-mode 1)
 (scroll-bar-mode -1)
+(global-subword-mode 1)
 (setq auto-revert-verbose nil)
 (setq confirm-kill-emacs 'yes-or-no-p)
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -75,14 +84,14 @@
                     :width 'ultra-condensed) ; ultra-condensed, condensed, normal, expanded
 
 
-(setq treesit-language-source-alist
-      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
-        (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
-        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
-        (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
-        ))
+;; (setq treesit-language-source-alist
+;;       '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
+;;         (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
+;;         (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
+;;         (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
+;;         (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
+;;         (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
+;;         ))
 
 
 ;; (setq mac-command-modifier 'meta)

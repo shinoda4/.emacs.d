@@ -195,3 +195,7 @@
   (yas-reload-all)       
   (yas-global-mode 1))
 
+(use-package treesit-auto
+  :straight t
+  :config
+  (global-treesit-auto-mode))
