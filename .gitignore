@@ -23,3 +23,5 @@ url
 *.html
 .mc-lists.el
 tramp
+
+transient
