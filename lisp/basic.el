@@ -2,6 +2,16 @@
 
 (require 'org-tempo)
 
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
+(setq major-mode-remap-alist
+      '((rust-mode . rust-ts-mode)
+        (python-mode . python-ts-mode)
+        (js-mode . js-ts-mode)
+        (typescript-mode . typescript-ts-mode)
+        (json-mode . json-ts-mode)
+        (css-mode . css-ts-mode)))
+
 ;; Some options
 
 (add-to-list 'exec-path "/usr/local/bin")

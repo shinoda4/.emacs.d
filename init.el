@@ -68,8 +68,6 @@
   :straight t
   )
 
-(straight-use-package 'rust-mode)
-
 ;; support vertical interface of completion or ...
 (use-package vertico
   :straight t
@@ -221,6 +219,12 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
+(use-package flycheck
+  :straight t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
-
+(add-hook 'rust-ts-mode-hook
+          (lambda ()
+            (setq-local flycheck-checker 'rust-clippy)))
 ;;; init.el ends here
