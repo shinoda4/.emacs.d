@@ -89,6 +89,9 @@
     ("C-x r r" . consult-recent-file)
     ("M-y" . consult-yank-pop)))
 
+(setq consult-preview-key '(:debounce 0.5 any))
+
+
 ;; using space as separator
 (use-package orderless
   :straight t
@@ -200,3 +203,19 @@
   :straight t
   :config
   (global-treesit-auto-mode))
+
+(use-package avy
+  :straight t)
+
+(global-set-key (kbd "C-:") 'avy-goto-char)
+(global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "M-g f") 'avy-goto-line)
+(global-set-key (kbd "M-g w") 'avy-goto-word-1)
+(global-set-key (kbd "M-g e") 'avy-goto-word-0)
+
+
+(use-package exec-path-from-shell
+  :straight t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
