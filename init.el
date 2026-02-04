@@ -139,11 +139,11 @@
   ("C-+" . er/contract-region))
 
 (with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               `(python-mode . ("ty" "server"))))
+  (add-to-list 'eglot-server-programs '(python-mode . ("ty" "server")))
+  (add-to-list 'eglot-server-programs '(elixir-mode "/usr/local/elixir-ls/language_server.sh"))
+  )
 
-(add-hook 'python-mode-hook 'eglot-ensure)
-
+;; (add-hook 'python-mode-hook 'eglot-ensure)
 
 (use-package projectile
   :straight t
@@ -198,10 +198,10 @@
   (yas-reload-all)       
   (yas-global-mode 1))
 
-(use-package treesit-auto
-  :straight t
-  :config
-  (global-treesit-auto-mode))
+;; (use-package treesit-auto
+;;   :straight t
+;;   :config
+;;   (global-treesit-auto-mode))
 
 (use-package avy
   :straight t)
