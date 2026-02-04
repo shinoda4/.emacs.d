@@ -1,5 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
+;;; Code:
 (add-to-list 'default-frame-alist '(fullscreen . fullboth))
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
@@ -219,3 +220,7 @@
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
+
+
+
+;;; init.el ends here
