@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 
 (add-to-list 'default-frame-alist '(fullscreen . fullboth))
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
