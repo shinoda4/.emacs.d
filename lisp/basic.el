@@ -1,5 +1,6 @@
-;;; -*- lexical-binding: t; -*-
-
+;;; package --- Summary -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
 (require 'org-tempo)
 
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
@@ -89,20 +90,19 @@
 (set-fontset-font t 'han (font-spec :family "Kaiti SC"))
 
 
-(set-face-attribute 'default nil 
-                    :family "TX-02" 
+(set-face-attribute 'default nil
+                    :family "TX-02"
                     :height 180
                     :width 'ultra-condensed) ; ultra-condensed, condensed, normal, expanded
 
-
-;; (setq treesit-language-source-alist
-;;       '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
-;;         (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
-;;         (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
-;;         (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
-;;         (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
-;;         (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
-;;         ))
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
+        (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
+        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
+        (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
+        ))
 
 
 ;; (setq mac-command-modifier 'meta)
@@ -119,5 +119,7 @@
 ;; (setq mac-option-modifier 'super)
 
 (provide 'basic)
+
+;;; basic.el ends here
 
 
