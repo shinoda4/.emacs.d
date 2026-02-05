@@ -88,12 +88,19 @@
 ;; 	     `(font . ,(get-default-font)))
 
 (set-fontset-font t 'han (font-spec :family "Kaiti SC"))
+(add-to-list 'face-font-rescale-alist '("Kaiti SC" . 0.9))
 
+;; JetBrains Mono
+;; (set-face-attribute 'default nil
+;;                     :family "JetBrains Mono"
+;;                     :height 180
+;;                     :width 'ultra-condensed)
+                                        ; ultra-condensed, condensed, normal, expanded
 
 (set-face-attribute 'default nil
                     :family "TX-02"
                     :height 180
-                    :width 'ultra-condensed) ; ultra-condensed, condensed, normal, expanded
+                    :width 'ultra-condensed)
 
 (setq treesit-language-source-alist
       '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
