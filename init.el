@@ -164,10 +164,10 @@
 (use-package multiple-cursors
   :straight t
   :bind (
-    ("C-S-c C-S-c" . mc/edit-lines)          ; 选中区域后，在每一行末尾加光标
-    ("C->"         . mc/mark-next-like-this) ; 选中一个词，按一下多选一个相同的
+    ("C-S-c C-S-c" . mc/edit-lines)
+    ("C->"         . mc/mark-next-like-this)
     ("C-<"         . mc/mark-previous-like-this)
-    ("C-c C-<"     . mc/mark-all-like-this)  ; 一次性选中全文所有相同的词
+    ("C-c C-<"     . mc/mark-all-like-this)
     ))
 
 (use-package gruvbox-theme
@@ -227,4 +227,11 @@
 (add-hook 'rust-ts-mode-hook
           (lambda ()
             (setq-local flycheck-checker 'rust-clippy)))
+
+
+(use-package grip-mode
+  :straight t
+  :config (setq grip-command 'go-grip) ;; auto, grip, go-grip or mdopen
+  :hook ((markdown-mode org-mode) . grip-mode))
+
 ;;; init.el ends here
