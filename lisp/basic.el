@@ -53,9 +53,9 @@
 ;; (global-set-key (kbd "*") 'skeleton-pair-insert-maybe)
 (global-set-key (kbd "~") 'skeleton-pair-insert-maybe)
 (load custom-file 'noerror)
-(menu-bar-mode -1)
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (recentf-mode 1)
-(scroll-bar-mode -1)
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (global-subword-mode 1)
 (setq auto-revert-verbose nil)
 (setq confirm-kill-emacs 'yes-or-no-p)
@@ -68,7 +68,7 @@
 (setq-default case-fold-search t)
 (setq-default indent-tabs-mode nil)
 (setq-default truncate-lines nil)
-(tool-bar-mode -1)
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (winner-mode 1)
 ;; (global-tab-line-mode 1) ;; Enable tab bar
 ;; (setq-default visual-line-mode t)
@@ -90,7 +90,8 @@
 ;; (add-to-list 'default-frame-alist
 ;; 	     `(font . ,(get-default-font)))
 
-(set-fontset-font t 'han (font-spec :family "Kaiti SC"))
+(if (fboundp 'set-fontset-font) (set-fontset-font t 'han (font-spec :family "Kaiti SC")))
+
 (add-to-list 'face-font-rescale-alist '("Kaiti SC" . 0.9))
 
 ;; JetBrains Mono
