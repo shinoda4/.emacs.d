@@ -141,6 +141,7 @@
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(python-mode . ("ty" "server")))
   (add-to-list 'eglot-server-programs '(elixir-mode "/usr/local/elixir-ls/language_server.sh"))
+  (add-to-list 'eglot-server-programs '(swift-mode . ("xcrun" "sourcekit-lsp")))
   )
 
 ;; (add-hook 'python-mode-hook 'eglot-ensure)
@@ -185,9 +186,7 @@
   :config
   (bind-key "RET" #'newline-and-indent paredit-mode-map)
   )
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs '(elixir-mode "/usr/local/elixir-ls/language_server.sh"))
-  )
+
 
 
 (use-package yasnippet
@@ -260,5 +259,25 @@
   ;; Enables ligature checks globally in all buffers. You can also do it
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
+
+(use-package swift-mode
+  :straight t)
+
+(use-package fzf
+  :straight t
+  :bind
+    ;; Don't forget to set keybinds!
+  :config
+  (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+        fzf/executable "fzf"
+        fzf/git-grep-args "-i --line-number %s"
+        ;; command used for `fzf-grep-*` functions
+        ;; example usage for ripgrep:
+        ;; fzf/grep-command "rg --no-heading -nH"
+        fzf/grep-command "grep -nrH"
+        ;; If nil, the fzf buffer will appear at the top of the window
+        fzf/position-bottom t
+        fzf/window-height 15))
+
 ;;; init.el ends here
 
