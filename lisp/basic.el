@@ -3,6 +3,8 @@
 ;;; Code:
 (require 'org-tempo)
 
+(setq org-use-speed-commands t)
+
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
 (setq major-mode-remap-alist
