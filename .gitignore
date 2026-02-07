@@ -26,3 +26,5 @@ tramp
 
 transient
 auto-save
+
+*.md
