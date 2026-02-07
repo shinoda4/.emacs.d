@@ -6,6 +6,7 @@
 (setq org-use-speed-commands t)
 
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+(add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-mode))
 
 (setq major-mode-remap-alist
       '((rust-mode . rust-ts-mode)

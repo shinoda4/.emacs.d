@@ -76,3 +76,6 @@ is an interactive byte-code-function in ‘lisp.el’.
 ~C-x C-p~ runs the command mark-page (found in global-map), which is an
 interactive byte-code-function in ‘page.el’.
 
+~M-r~ runs the command move-to-window-line-top-bottom (found in
+global-map), which is an interactive byte-code-function in
+‘window.el’.
