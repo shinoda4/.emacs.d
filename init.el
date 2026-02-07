@@ -115,13 +115,18 @@
   
   (corfu-auto-prefix 2)
   (corfu-auto-delay 0.1)
-  (corfu-cycle t)               
+  (corfu-cycle t)
   :init
   (global-corfu-mode)
   :bind
   (:map global-map
         ("M-i" . completion-at-point))
   )
+(use-package corfu-terminal
+  :straight t
+  :config
+  (unless (display-graphic-p)
+    (corfu-terminal-mode 1)))
 
 ;; put file path into corfu for completion
 (use-package cape
