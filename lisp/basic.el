@@ -3,10 +3,11 @@
 ;;; Code:
 (require 'org-tempo)
 
-(setq org-use-speed-commands t)
+;; org mode directory
+;; (setq org-agenda-files (list (expand-file-name "~/org_mode/")))
+(setq org-agenda-files (directory-files-recursively "~/org_mode/" "\\.org$"))
 
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
-(add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-mode))
+(setq org-use-speed-commands t)
 
 (setq major-mode-remap-alist
       '((rust-mode . rust-ts-mode)
@@ -14,7 +15,8 @@
         (js-mode . js-ts-mode)
         (typescript-mode . typescript-ts-mode)
         (json-mode . json-ts-mode)
-        (css-mode . css-ts-mode)))
+        (css-mode . css-ts-mode)
+        ))
 
 ;; Some options
 
@@ -79,6 +81,32 @@
 (add-hook 'org-mode-hook (lambda ()
   (setq truncate-lines t)))
 
+
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
+        (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
+        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
+        (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
+        (typst "https://github.com/uben0/tree-sitter-typst")
+        ))
+
+
+;; (setq mac-command-modifier 'meta)
+;; (setq mac-option-modifier 'super)
+(setq mac-pass-command-to-system nil)
+
+;; (setq eww-search-prefix "https://www.google.com/search?gbv=1&q=")
+
+(global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
+(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+
+
+;; (setq mac-command-modifier 'meta)
+;; (setq mac-option-modifier 'super)
+
 ;; fonts
 
 ;; (defun get-default-font()
@@ -94,40 +122,21 @@
 
 (add-to-list 'face-font-rescale-alist '("Kaiti SC" . 0.9))
 
-;; JetBrains Mono
-;; (set-face-attribute 'default nil
-;;                     :family "JetBrains Mono"
-;;                     :height 180
-;;                     :width 'ultra-condensed)
-                                        ; ultra-condensed, condensed, normal, expanded
+(setq default-frame-alist (assoc-delete-all 'font default-frame-alist))
 
-(set-face-attribute 'default nil
-                    :family "TX-02"
-                    :height 180
-                    :width 'ultra-condensed)
+(let ((my-font "Fira Code-18"))
+  (set-face-attribute 'default nil :font my-font)
+  (add-to-list 'default-frame-alist `(font . ,my-font)))
 
-(setq treesit-language-source-alist
-      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
-        (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
-        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
-        (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
-        ))
+;; (let ((my-font "Iosevka Nerd Font Mono-18"))
+;;   (set-face-attribute 'default nil :font my-font :width 'ultra-condensed)
+;;   (add-to-list 'default-frame-alist `(font . ,my-font)))
 
+(set-face-attribute 'variable-pitch nil :family "IBM Plex Mono" :height 160)
 
-;; (setq mac-command-modifier 'meta)
-;; (setq mac-option-modifier 'super)
-(setq mac-pass-command-to-system nil)
+(add-hook 'org-mode-hook 'variable-pitch-mode)
 
-;; (setq eww-search-prefix "https://www.google.com/search?gbv=1&q=")
-
-(global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
-(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
-(global-set-key (kbd "C-c f") 'consult-fd)
-
-;; (setq mac-command-modifier 'meta)
-;; (setq mac-option-modifier 'super)
+(load-theme 'modus-operandi-deuteranopia)
 
 (provide 'basic)
 

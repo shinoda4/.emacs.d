@@ -79,3 +79,16 @@ interactive byte-code-function in ‘page.el’.
 ~M-r~ runs the command move-to-window-line-top-bottom (found in
 global-map), which is an interactive byte-code-function in
 ‘window.el’.
+
+~M-g c~ runs the command goto-char (found in global-map), which is an
+interactive primitive-function in ‘C source code’.
+
+~M-g M-g~ runs the command goto-line (found in global-map), which is
+an interactive byte-code-function in ‘simple.el’. It is bound to s-l,
+M-g g and M-g M-g.
+
+~M-g TAB~ (translated from M-g <tab>) runs the command move-to-column
+(found in global-map), which is an interactive primitive-function in
+‘C source code’.
+
+

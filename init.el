@@ -1,9 +1,12 @@
-;;; -*- lexical-binding: t; -*-
+;;; package --- Summary -*- lexical-binding: t; -*-
+
+;;; Commentary:
 
 ;;; Code:
 (add-to-list 'default-frame-alist '(fullscreen . fullboth))
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
+(add-to-list 'load-path (expand-file-name "user-lisp" user-emacs-directory))
+(require 'functions)
 (require 'basic)
 
 ;; User defined keymaps should after C-x r <KEY>.
@@ -143,20 +146,11 @@
   ("C-=" . er/expand-region)
   ("C-+" . er/contract-region))
 
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs '(python-mode . ("ty" "server")))
-  (add-to-list 'eglot-server-programs '(elixir-mode "/usr/local/elixir-ls/language_server.sh"))
-  (add-to-list 'eglot-server-programs '(swift-mode . ("xcrun" "sourcekit-lsp")))
-  )
-
-;; (add-hook 'python-mode-hook 'eglot-ensure)
-
 (use-package projectile
   :straight t
   :init
   (projectile-mode +1))
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
 
 ;; (use-package smartparens
 ;;   :straight t
@@ -192,14 +186,12 @@
   (bind-key "RET" #'newline-and-indent paredit-mode-map)
   )
 
-
-
 (use-package yasnippet
   :straight t
-  :diminish yas-minor-mode 
+  :diminish yas-minor-mode
   :config
   (setq yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
-  (yas-reload-all)       
+  (yas-reload-all)
   (yas-global-mode 1))
 
 ;; (use-package treesit-auto
@@ -233,10 +225,10 @@
             (setq-local flycheck-checker 'rust-clippy)))
 
 
-(use-package grip-mode
-  :straight t
-  :config (setq grip-command 'go-grip) ;; auto, grip, go-grip or mdopen
-  :hook ((markdown-mode org-mode) . grip-mode))
+;; (use-package grip-mode
+;;   :straight t
+;;   :config (setq grip-command 'go-grip) ;; auto, grip, go-grip or mdopen
+;;   :hook ((markdown-mode org-mode) . grip-mode))
 
 ;; This assumes you've installed the package via MELPA.
 (use-package ligature
@@ -259,8 +251,9 @@
                                        ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
                                        "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
                                        "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                       "?=" "?." "??" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                        "\\\\" "://"))
+
   ;; Enables ligature checks globally in all buffers. You can also do it
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
@@ -283,6 +276,38 @@
         ;; If nil, the fzf buffer will appear at the top of the window
         fzf/position-bottom t
         fzf/window-height 15))
+
+(use-package doom-themes
+  :straight t
+  :custom
+  ;; Global settings (defaults)
+  (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
+  (doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  :config
+  ;; (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(use-package typst-ts-mode
+  :straight '(:type git :host sourcehut :repo "meow_king/typst-ts-mode")
+  :custom
+  (typst-ts-mode-watch-options "--open"))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(python-mode . ("ty" "server")))
+  (add-to-list 'eglot-server-programs '(elixir-mode "/usr/local/elixir-ls/language_server.sh"))
+  (add-to-list 'eglot-server-programs '(swift-mode . ("xcrun" "sourcekit-lsp")))
+  )
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `((typst-ts-mode) .
+                 ,(eglot-alternatives `(,typst-ts-lsp-download-path
+                                        "tinymist"
+                                        "typst-lsp")))))
 
 ;;; init.el ends here
 
