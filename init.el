@@ -1,3 +1,9 @@
+;;; package --- Summary -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;;; Code:
+
 (setq custom-file (expand-file-name ".emacs.custom.el" user-emacs-directory))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
@@ -23,12 +29,22 @@
 (straight-use-package 'use-package)
 
 ;; editor configurations
+(require 'org-tempo)
+(setq org-use-speed-commands t)
+
 (recentf-mode 1)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
+(electric-pair-mode 1)
+(electric-quote-mode 1)
 (global-display-line-numbers-mode 1)
 
+(global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
+(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+
+;; third part plugins
 (use-package ido-completing-read+
   :straight t
   :config
@@ -76,8 +92,9 @@
   :straight t
   :config
   (setq consult-preview-key '(:debounce 0.5 any))
-  (global-set-key (kbd "C-c f") 'consult-fd)
-  (global-set-key (kbd "C-c r") 'consult-recent-file)
+  :bind
+  (("C-c f" . 'consult-fd)
+   ("C-c r" . 'consult-recent-file))
   )
 
 (use-package paredit
@@ -121,14 +138,81 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
+(use-package projectile
+  :straight t
+  :init
+  (projectile-mode +1)
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+)
+
+(use-package multiple-cursors
+  :straight t
+  :bind (
+    ("C-S-c C-S-c" . mc/edit-lines)
+    ("C->"         . mc/mark-next-like-this)
+    ("C-<"         . mc/mark-previous-like-this)
+    ("C-c C-<"     . mc/mark-all-like-this)
+    ))
+
+(use-package yasnippet
+  :straight t
+  :diminish yas-minor-mode
+  :config
+  (setq yas-snippet-dirs (list (expand-file-name "snippets" user-emacs-directory)))
+  (yas-reload-all)
+  (yas-global-mode 1))
+
+(use-package flycheck
+  :straight t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'rust-ts-mode-hook
+            (lambda ()
+              (setq-local flycheck-checker 'rust-clippy)
+              ))
+  )
+
 (use-package savehist
   :straight t
   :init
   (savehist-mode))
 
-(require 'eglot)
+(use-package expand-region
+  :straight t
+  :bind
+  ("C-=" . er/expand-region)
+  ("C-+" . er/contract-region))
 
+(use-package impatient-mode
+  :straight t)
+
+;; treesitter language source list
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
+        (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
+        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
+        (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
+        (typst "https://github.com/uben0/tree-sitter-typst")
+        ))
+
+(setq major-mode-remap-alist
+      '((rust-mode . rust-ts-mode)
+        (python-mode . python-ts-mode)
+        (js-mode . js-ts-mode)
+        (typescript-mode . typescript-ts-mode)
+        (json-mode . json-ts-mode)
+        (css-mode . css-ts-mode)
+        ))
+
+;; eglot hooks
 (use-package rust-mode
   :straight t)
 
+(require 'eglot)
+(add-hook 'rust-ts-mode-hook #'eglot-ensure)
+
 (load custom-file 'noerror)
+;;; init.el ends here

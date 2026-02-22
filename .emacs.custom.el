@@ -7,6 +7,7 @@
  '(display-line-numbers-type 'relative)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(ns-use-fullscreen-animation t)
  '(tab-width 4))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
