@@ -8,6 +8,8 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+(require 'rc)
+
 ;; straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -35,14 +37,24 @@
 (recentf-mode 1)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
-(scroll-bar-mode 0)
+(if (display-graphic-p)
+    (scroll-bar-mode 0)
+    )
 (electric-pair-mode 1)
 (electric-quote-mode 1)
 (global-display-line-numbers-mode 1)
 
+;; keymaps
 (global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
 (global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
 (global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+(global-set-key (kbd "C-,")
+                (lambda ()
+                  (interactive)
+                  (let ((col (current-column)))
+                    (duplicate-line 1)
+                    (forward-line 1)
+                    (move-to-column col))))
 
 ;; third part plugins
 (use-package ido-completing-read+
@@ -213,6 +225,10 @@
 
 (require 'eglot)
 (add-hook 'rust-ts-mode-hook #'eglot-ensure)
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; (set-face-attribute 'variable-pitch nil :family "IBM Plex Mono" :height 160)
 
 (load custom-file 'noerror)
 ;;; init.el ends here
