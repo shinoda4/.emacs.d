@@ -44,6 +44,11 @@
 (electric-quote-mode 1)
 (global-display-line-numbers-mode 1)
 
+(setq org-descriptive-links nil)
+(setq org-image-actual-width '(600))
+(setq org-read-date-popup-calendar t)
+(setq org-reverse-datetree-order t)
+
 ;; keymaps
 (global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
 (global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
@@ -154,13 +159,13 @@
   :straight t
   :init
   (projectile-mode +1)
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-)
+  :bind-keymap ("C-c C-p" . projectile-command-map))
 
 (use-package multiple-cursors
   :straight t
-  :bind (
+  :init
+  (setq projectile-project-search-path '("~/projects/" "~/work/" "~/playground"))
+   :bind (
     ("C-S-c C-S-c" . mc/edit-lines)
     ("C->"         . mc/mark-next-like-this)
     ("C-<"         . mc/mark-previous-like-this)
@@ -175,11 +180,42 @@
   (yas-reload-all)
   (yas-global-mode 1))
 
+
+;; treesitter language source list
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
+        (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
+        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
+        (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
+        (typst "https://github.com/uben0/tree-sitter-typst")
+        ))
+
+;; (setq major-mode-remap-alist
+;;       '((rust-mode . rust-ts-mode)
+;;         (python-mode . python-ts-mode)
+;;         (js-mode . js-ts-mode)
+;;         (typescript-mode . typescript-ts-mode)
+;;         (json-mode . json-ts-mode)
+;;         (css-mode . css-ts-mode)
+;;         ))
+
+;; eglot hooks
+(use-package typst-ts-mode
+  :straight '(:type git :host sourcehut :repo "meow_king/typst-ts-mode")
+  :custom
+  (typst-ts-mode-watch-options "--open"))
+
+(use-package rust-mode
+  :straight t
+  :hook (rust-mode . eglot-ensure))
+
 (use-package flycheck
   :straight t
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode)
-  (add-hook 'rust-ts-mode-hook
+  (add-hook 'rust-mode-hook
             (lambda ()
               (setq-local flycheck-checker 'rust-clippy)
               ))
@@ -199,32 +235,21 @@
 (use-package impatient-mode
   :straight t)
 
-;; treesitter language source list
-(setq treesit-language-source-alist
-      '((rust "https://github.com/tree-sitter/tree-sitter-rust.git" "v0.21.2")
-        (go "https://github.com/tree-sitter/tree-sitter-go.git" "v0.23.4")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "typescript/src")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript.git" "v0.23.2" "tsx/src")
-        (python "https://github.com/tree-sitter/tree-sitter-python.git" "v0.23.6" "src")
-        (elixir "https://github.com/elixir-lang/tree-sitter-elixir.git" "v0.3.4" "src")
-        (typst "https://github.com/uben0/tree-sitter-typst")
-        ))
-
-(setq major-mode-remap-alist
-      '((rust-mode . rust-ts-mode)
-        (python-mode . python-ts-mode)
-        (js-mode . js-ts-mode)
-        (typescript-mode . typescript-ts-mode)
-        (json-mode . json-ts-mode)
-        (css-mode . css-ts-mode)
-        ))
-
-;; eglot hooks
-(use-package rust-mode
-  :straight t)
-
 (require 'eglot)
-(add-hook 'rust-ts-mode-hook #'eglot-ensure)
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(python-mode . ("ty" "server")))
+  (add-to-list 'eglot-server-programs '(elixir-mode "/usr/local/elixir-ls/language_server.sh"))
+  (add-to-list 'eglot-server-programs '(swift-mode . ("xcrun" "sourcekit-lsp")))
+  )
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `((typst-ts-mode) .
+                 ,(eglot-alternatives `(,typst-ts-lsp-download-path
+                                        "tinymist"
+                                        "typst-lsp")))))
+
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
