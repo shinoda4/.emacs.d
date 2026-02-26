@@ -85,6 +85,14 @@
 (global-set-key (kbd "<f9>") 'compile)
 
 ;; third part plugins
+(use-package elfeed
+  :straight t
+  :config
+  (setq elfeed-feeds
+        '("https://github.com/blog.atom"
+          "https://planet.emacslife.com/atom.xml"))
+  )
+
 (use-package ido-completing-read+
   :straight t
   :config
