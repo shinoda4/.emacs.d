@@ -32,22 +32,42 @@
 
 ;; editor configurations
 (require 'org-tempo)
+
+;; org-mode
+(setq org-directory "~/org_mode/")
+(setq org-agenda-files '("~/org_mode/notes/" "~/org_mode/memory/" "~/org_mode/notes/nsfw/"))
 (setq org-use-speed-commands t)
+;; (setq org-startup-indented t)
+(setq org-log-done 'time)
+(setq org-attach-auto-tag nil)
+(setq org-image-actual-width '(600))
+(setq org-read-date-popup-calendar t)
+(setq org-reverse-datetree-order t)
+(setq org-startup-with-inline-images t)
+(setq org-todo-keyword-faces
+      '(("NEXT" . "cyan") ("DOING" . "orange") ("WAITING" . "purple") ("CANCELLED" . "gray")))
+;; (setq org-descriptive-links nil)
+
+;; (add-hook 'org-mode-hook 'auto-fill-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+;; (add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook (lambda ()
+  (setq truncate-lines t)))
+
+(setq display-time-format "%Y-%m-%d %H:%M %a")
+(setq display-time-default-load-average t)
+(setq-default truncate-lines nil)
 
 (recentf-mode 1)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
+(display-time-mode 1)
 (if (display-graphic-p)
     (scroll-bar-mode 0)
     )
 (electric-pair-mode 1)
 (electric-quote-mode 1)
 (global-display-line-numbers-mode 1)
-
-(setq org-descriptive-links nil)
-(setq org-image-actual-width '(600))
-(setq org-read-date-popup-calendar t)
-(setq org-reverse-datetree-order t)
 
 ;; keymaps
 (global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
@@ -60,6 +80,9 @@
                     (duplicate-line 1)
                     (forward-line 1)
                     (move-to-column col))))
+
+(global-set-key (kbd "C-c c") 'compile)
+(global-set-key (kbd "<f9>") 'compile)
 
 ;; third part plugins
 (use-package ido-completing-read+
@@ -233,7 +256,19 @@
   ("C-+" . er/contract-region))
 
 (use-package impatient-mode
-  :straight t)
+  :straight t
+  )
+
+(use-package doom-modeline
+  :straight t
+  :init
+  (doom-modeline-mode 1)
+  )
+
+;; (use-package grip-mode
+;;   :straight t
+;;   :config (setq grip-command 'go-grip) ;; auto, grip, go-grip or mdopen
+;;   :hook ((markdown-mode org-mode) . grip-mode))
 
 (require 'eglot)
 

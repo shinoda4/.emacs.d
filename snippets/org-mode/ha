@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ha
+# key: ha
+# --
+@@html:<a href="${1:link}">${2:desc}</a>@@

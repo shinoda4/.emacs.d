@@ -12,23 +12,22 @@
     (read-directory-name "Save to directory: " "~/org/")))
 
   (let* ((timestamp (format-time-string "%Y%m%d%H%M"))
-         (slug (replace-regexp-in-string
-                "-+" "-"
-                (replace-regexp-in-string
-                 "[^a-z0-9]+"
-                 "-"
-                 (downcase title))))
-         (filename (format "%s-%s.org" timestamp slug))
-         (filepath (expand-file-name filename directory))
-         (dir (file-name-directory filepath)))
+         (slug (let ((s (replace-regexp-in-string
+                         "[^a-z0-9]+" "-" (downcase title))))
+                 (replace-regexp-in-string "^-\\|-$" "" 
+                                           (replace-regexp-in-string "-+" "-" s))))
+         (filename (if (string-empty-p slug)
+                       (format "%s.org" timestamp)
+                     (format "%s-%s.org" timestamp slug)))
+         (filepath (expand-file-name filename directory)))
 
-    (unless (file-directory-p dir)
-      (make-directory dir t))
+    (unless (file-directory-p directory)
+      (make-directory directory t))
 
     (unless (file-exists-p filepath)
       (with-temp-file filepath
-        (insert "#+title: " title "\n")
-        (insert "#+created: " (format-time-string "%Y-%m-%d %H:%M") "\n")
+        (insert (format "#+title: %s\n" title))
+        (insert (format "#+created: [%s]\n" (format-time-string "%Y-%m-%d %H:%M")))
         (insert "#+filetags: :note:\n\n")
         (insert "* " title "\n\n")))
 
