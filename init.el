@@ -105,6 +105,12 @@
 
 (add-to-list 'default-frame-alist '(font . "IBM Plex Mono-20"))
 
+(if (fboundp 'set-fontset-font) (set-fontset-font t 'han (font-spec :family "Kaiti SC")))
+
+(add-to-list 'face-font-rescale-alist '("Kaiti SC" . 0.9))
+
+(if (fboundp 'set-fontset-font) (set-fontset-font t '(#x0080 . #xff80) (font-spec :family "Kaiti SC")))
+
 (use-package gruber-darker-theme
   :straight t
   :config
@@ -271,6 +277,12 @@
   :straight t
   :init
   (doom-modeline-mode 1)
+  )
+
+(use-package dracula-theme
+  :straight t
+  :init
+  (load-theme 'dracula t)
   )
 
 ;; (use-package grip-mode
