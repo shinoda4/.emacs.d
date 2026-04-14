@@ -1,0 +1,12 @@
+
+.DS_Store
+\#*
+*~
+straight/repos/
+straight/build/
+straight/modified/
+straight/build-cache.el
+ido.last
+smex-items
+tramp
+recentf
