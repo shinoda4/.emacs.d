@@ -58,6 +58,12 @@
   :config
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
+(use-package expand-region
+  :straight t
+  :bind
+  ("C-=" . er/expand-region)
+  ("C-+" . er/contract-region))
+
 (use-package magit
   :defer t
   :straight t)
