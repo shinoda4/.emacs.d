@@ -3,6 +3,10 @@
 
 (set-frame-parameter nil 'fullscreen 'fullboth)
 
+;; keymaps
+
+(global-set-key (kbd "C-c r") 'recentf-open-files)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name
@@ -25,21 +29,52 @@
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
 (use-package magit
+  :defer t
   :straight t)
 
-(use-package company
+(use-package corfu
+  :defer t
   :straight t
+  :init
+  (global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  (corfu-cycle t)
   :config
-  (global-company-mode 1)
-  (setq company-tooltip-align-annotations t)
-)
+  (corfu-popupinfo-mode 1)
+  (require 'corfu-info)
+  ;; (setq corfu-popupinfo-delay 0.5)
+  :bind (:map corfu-map
+              ("M-n" . corfu-popupinfo-scroll-up)
+              ("M-p" . corfu-popupinfo-scroll-down))
+  )
 
-(use-package company-box
+;; (use-package company
+;;   :straight t
+;;   :config
+;;   (global-company-mode 1)
+;;   (setq company-tooltip-align-annotations t)
+;; )
+
+;; (use-package company-box
+;;   :straight t
+;;   :defer t
+;;   :hook (company-mode . company-box-mode))
+
+(use-package avy
   :straight t
-  :hook (company-mode . company-box-mode))
+  :defer t
+  :config
+  ;; (global-set-key (kbd "C-:") 'avy-goto-char)
+  (global-set-key (kbd "C-;") 'avy-goto-char-2)
+  (global-set-key (kbd "C-:") 'avy-goto-line)
+  (global-set-key (kbd "M-g w") 'avy-goto-word-1)
+  (global-set-key (kbd "M-g e") 'avy-goto-word-0)
+)
 
 (use-package smex
   :straight t
+  :defer t
   :init
   (smex-initialize)
   :bind
@@ -52,9 +87,42 @@
 (use-package ido-completing-read+
   :straight t)
 
+;; (use-package dired+
+;;   :straight t)
+
+(use-package projectile
+  :straight t
+  :defer t
+  :init
+  (projectile-mode +1)
+  :bind-keymap ("C-c C-p" . projectile-command-map))
+
+(use-package multiple-cursors
+  :straight t
+  :defer t
+  :init
+  :bind (
+         ("C-S-c C-S-c" . mc/edit-lines)
+         ("C->"         . mc/mark-next-like-this)
+         ("C-<"         . mc/mark-previous-like-this)
+         ("C-c C-<"     . mc/mark-all-like-this)
+         ))
+
 (use-package python-mode
   :straight t
   :defer t
+  )
+
+(use-package rust-mode
+  :straight t
+  :defer t
+  )
+
+(use-package markdown-mode
+  :straight t
+  :defer t
+  :init
+  (setq markdown-command "pandoc")
   )
 
 (with-eval-after-load 'eglot
@@ -65,3 +133,5 @@
 
 (when (file-exists-p custom-file)
   (load custom-file))
+
+(load-theme 'vinda t)
