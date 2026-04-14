@@ -1,11 +1,41 @@
+;;; package --- Summary ;;; -*- lexical-binding: t -*-
+
+;;; Commentary:
+
+;;; Code:
 
 (setq custom-file (expand-file-name ".emacs.custom.el" user-emacs-directory))
 
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+
 (set-frame-parameter nil 'fullscreen 'fullboth)
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq backup-directory-alist `(("." . "~/.emacs.d/backups")))
+(setq gc-cons-threshold (* 100 1024 1024))
+(setq scroll-step 1
+      scroll-consistently t
+      scroll-margin 3)
+
+(setq visible-bell t)
 
 ;; keymaps
 
 (global-set-key (kbd "C-c r") 'recentf-open-files)
+(global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
+(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+(global-set-key (kbd "C-,")
+                (lambda ()
+                  (interactive)
+                  (let ((col (current-column)))
+                    (duplicate-line 1)
+                    (forward-line 1)
+                    (move-to-column col))))
+
+(global-set-key (kbd "C-c c") 'compile)
+(global-set-key (kbd "<f9>") 'compile)
+
+;; plugins
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -49,6 +79,11 @@
               ("M-p" . corfu-popupinfo-scroll-down))
   )
 
+(use-package cape
+  :straight t
+  :config
+  (add-to-list 'completion-at-point-functions #'cape-file))
+
 ;; (use-package company
 ;;   :straight t
 ;;   :config
@@ -63,7 +98,6 @@
 
 (use-package avy
   :straight t
-  :defer t
   :config
   ;; (global-set-key (kbd "C-:") 'avy-goto-char)
   (global-set-key (kbd "C-;") 'avy-goto-char-2)
@@ -86,6 +120,13 @@
 
 (use-package ido-completing-read+
   :straight t)
+
+(use-package flx-ido
+  :straight t
+  :defer t
+  :init
+  (flx-ido-mode 1)
+  )
 
 ;; (use-package dired+
 ;;   :straight t)
@@ -125,13 +166,23 @@
   (setq markdown-command "pandoc")
   )
 
+(use-package flycheck
+  :straight t
+  :config
+  ;; (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'rust-mode-hook
+            (lambda ()
+              (setq-local flycheck-checker 'rust-clippy)
+              ))
+  )
+
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
                '(python-mode . ("uv" "run" "ty" "server"))))
 
-(file-exists-p custom-file)
-
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(load-theme 'vinda t)
+(provide 'init)
+
+;;; init.el ends here

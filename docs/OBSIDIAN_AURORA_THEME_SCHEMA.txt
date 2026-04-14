@@ -1,0 +1,60 @@
+Obsidian Aurora Theme Schema
+
+Background:  #0d0f18  (deep midnight indigo)
+Lighter bg:  #14162a  (elevated)
+Surface:     #1a1c32  (popups)
+Highlight:   #1e2040  (hover, active)
+
+Foreground:  #c8c8d4  (primary text)
+Secondary:   #8a8a9e  (secondary text)  
+Dim:         #5a5a70  (comments base)
+
+Keyword:     #d4a04e  (amber gold)
+String:      #68b878  (jade green)
+Function:    #5eaed0  (arctic blue)
+Type:        #a888cc  (wisteria purple)
+Constant:    #c87088  (rosewood)
+Number:      #d49058  (copper/terracotta)
+Variable:    #9ea8b8  (cool silver)
+Comment:     #505868 with italic (deep twilight)
+Operator:    #8070a0  (soft purple)
+Builtin:     italic + #5eaed0 (arctic blue)
+Preprocessor: #c090d0 (light orchid)
+Escape:      #d4a04e  (amber, attention)
+Negation:    #d47050  (warm red)
+Warning:     #c87088  (rose, matching constant)
+Punctuation: #505070  (dim blue-gray)
+Delimiter:   #4a4a6a  (very dim)
+Bracket:     #606080  (slightly brighter)
+
+Cursor:      #d4a04e  (amber, warm beacon)
+Region:      #1e2040  (deep blue)
+Selection2:  #252848  (secondary selection)
+Isearch:     #503070 bg, #e0c0f0 fg (deep purple search)
+Isearch-fail:#3a1010 bg (dark red)
+Lazy-hl:     #261840 bg (deep violet hint)
+Match:       #282048 bg (indigo)
+Next-error:  #2a1830 bg (dark rose tint)
+Query-replace: inherit isearch
+Trailing ws: #3a1020 bg (dark red-pink)
+
+Mode-line:        bg #14162a, fg #a0a0b8
+Mode-line-inactive: bg #0e1020, fg #505068
+Mode-line-buffer-id: #c8c8d4, bold
+Mode-line-emphasis: bold
+Mode-line-highlight: box #3a3a58
+
+Link:         #5eaed0 (arctic blue, matching functions - they're connections)
+Link-visited: #a888cc (wisteria, matching types)
+Button:       inherit link
+
+Fringe:       #0d0f18 (same as bg)
+Header-line:  bg #14162a, fg #8a8a9e
+Tooltip:      bg #1a1c32, fg #c8c8d4
+
+Minibuffer-prompt: #d4a04e (amber - your guide)
+Highlight:    #1e2040 bg
+
+Shadow:       #505068
+Escape-glyph: #5eaed0
+Homoglyph:    #d47050 (warning color, these are suspicious)

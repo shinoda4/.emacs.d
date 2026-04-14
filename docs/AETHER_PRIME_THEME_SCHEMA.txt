@@ -1,0 +1,69 @@
+Aether-Prime Theme Schema
+
+Base Backgrounds
+Background:     #080c16  (deep abyssal navy)
+Lighter bg:     #0d1322  (elevated navy surface)
+Surface:        #141b2d  (popups, tooltips)
+Highlight:      #182038  (subtle active highlight)
+
+Text & Dimming
+Foreground:     #d4d8e8  (cool moonlight white)
+Secondary:      #a3b1c6  (muted steel gray)
+Dim:            #42506b  (deep water shadow)
+
+Syntax Highlighting
+Keyword:        #f72585  (bio-luminescent pink, rapid focal point)
+String:         #b5e48c  (soft phosphor green)
+Function:       #4cc9f0  (electric cyan, high clarity)
+Type:           #fca311  (deep sun amber)
+Constant:       #fca311  (same as type - solid anchors)
+Number:         #ffbe0b  (bright gold)
+Variable:       #b07dff  (neon violet)
+Comment:        #42506b with italic (sunken blue-gray)
+Operator:       #b07dff  (matching variables - logical flow)
+Builtin:        italic + #4cc9f0 (electric cyan)
+Preprocessor:   #d291bc (muted orchid)
+Escape:         #f72585 (bio-pink, alert)
+Negation:       #ff0054 (vibrant crimson)
+Warning:        #ff0054 (bold crimson error/warning)
+Punctuation:    #42506b (dimmed navy)
+Delimiter:      #42506b (receding markers)
+Bracket:        #5c6b8c (slightly brighter for structure)
+
+Search & Interaction
+Cursor:         #f72585 (bio-pink, sharp beacon)
+Region:         #1f4747 (deep teal/navy selection)
+Selection2:     #2a1b3d (dark purple secondary selection)
+Isearch:        #b5e48c bg, #080c16 fg (bright phosphor search)
+Isearch-fail:   #ff0054 bg, #d4d8e8 fg (error red)
+Lazy-hl:        #1f4068 bg (distant blue hint)
+Match:          #3a0ca3 bg (electric indigo)
+Next-error:     #1f2947 bg (matching region tint)
+Query-replace:  inherit isearch
+Trailing ws:    #660033 bg (dim warning red)
+
+Mode-line (Status Bar)
+Mode-line:           bg #0d1322, fg #d4d8e8
+Mode-line-inactive:  bg #0a0e1a, fg #5c6b8c
+Mode-line-buffer-id: #4cc9f0, bold
+Mode-line-emphasis:  bold, #f72585
+Mode-line-highlight: box #4cc9f0
+
+Links & Buttons
+Link:           #4cc9f0 (electric cyan, connections)
+Link-visited:   #b07dff (neon violet)
+Button:         inherit link
+
+UI Miscellaneous
+Fringe:         #080c16 (seamless with bg)
+Header-line:    bg #0d1322, fg #a3b1c6
+Tooltip:        bg #141b2d, fg #d4d8e8
+
+Minibuffer & Feedback
+Minibuffer-prompt: #4cc9f0 (electric cyan - your command beacon)
+Highlight:      #182038 bg
+
+Shadows & Glyphs
+Shadow:         #42506b
+Escape-glyph:   #4cc9f0
+Homoglyph:      #f72585 (suspicious character warning)

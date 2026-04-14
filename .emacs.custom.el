@@ -1,13 +1,28 @@
-;;; -*- lexical-binding: t -*-
+;;; package --- Summary ;;; -*- lexical-binding: t -*-
+
+;;; Commentary:
+
+;;; Code:
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(change-major-mode-with-file-name t)
- '(custom-enabled-themes '(vinda))
+ '(custom-enabled-themes '(obsidian-ink))
  '(custom-safe-themes
-   '("602e92dd87c0da81c1355a313d6c4c102a2a88811c35defa5c30ae7111e7b829"
+   '("c041dd4b2a5a37470642abe608837000a2c580a814cee613b85ba4cd32831785"
+     "36a25dd3b28f3407d78af3451480761101a536c5a4058a153b453b2a947ea087"
+     "f7e58059fb0538c49a6251419c98c9ba3a972a688672709667f0cff10f18ba40"
+     "eb81282ea848d85b96b47eed88e0a8cf597a16dd7fbbf1264955681fee367cd7"
+     "b6b12b3d98fcaadd9493ebba1432392493c2efceb7294e76e5d0fe0dd2aa61ec"
+     "79b499ce5e4165e339f3f1c909858a6d39efd0e229dc819e7407459ffea2d5ec"
+     "571f340428d2c5c2986b9337862dffb5c8ca28f85ab241a5449ecb6f94de09f8"
+     "8ea8c3c2cb2a65f28b8e5d95533345a0d9febab3c29f16f6456ae6f67171c728"
+     "9bdebeb9f63942a2064bf1c69c5046a0a7221e80fd7091ae5b0c6589a9a9be5f"
+     "6f33c0d35d50b096a03c378432cc8a4100f582b93e060c00ea0706f8d66ff66b"
+     "602e92dd87c0da81c1355a313d6c4c102a2a88811c35defa5c30ae7111e7b829"
      "2c7e7e140e01ef3a951a7ae6f5dfe331a430542406b4af351c3fece4895afc43"
      "d4a85cef6d7ef855f74b9e026f9ccd59e23f4351bc858a33bded315e57c52b28"
      "8dd026aa840346190e99782c4aa135cfd7e8e63b30a0985811a5ad3aed5a8227"
@@ -33,6 +48,7 @@
  '(electric-pair-mode t)
  '(electric-pair-skip-whitespace t)
  '(electric-quote-mode nil)
+ '(global-auto-revert-mode t)
  '(ido-all-frames t)
  '(ido-enable-flex-matching t)
  '(ido-enable-prefix nil)
@@ -40,9 +56,11 @@
  '(ido-everywhere t)
  '(ido-mode 'both nil (ido))
  '(indent-tabs-mode nil)
+ '(inhibit-startup-screen t)
  '(menu-bar-mode nil)
  '(package-selected-packages '(company smex))
  '(ps-font-family 'Iosevka)
+ '(recentf-max-menu-items 25)
  '(recentf-mode t)
  '(scroll-bar-mode nil)
  '(tab-always-indent 'complete)
@@ -51,8 +69,12 @@
  '(tooltip-frame-parameters
    '((name . "tooltip") (internal-border-width . 2) (border-width . 1)
      (no-special-glyphs . t)))
- '(what-cursor-show-names t))
+ '(what-cursor-show-names t)
+ '(winner-mode t))
 
+(provide '.emacs.custom)
+
+;;; .emacs.custom.el ends here
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

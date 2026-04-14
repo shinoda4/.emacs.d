@@ -1,0 +1,69 @@
+Obsidian Ink Theme Schema
+
+Base Backgrounds
+Background:     #121417  (deep obsidian ink)
+Lighter bg:     #1a1d23  (elevated, surface level)
+Surface:        #1e222a  (popups, floating layers)
+Highlight:      #263345  (hover, active selection)
+
+Text & Dimming
+Foreground:     #d1d4d9  (fog silver, primary text)
+Secondary:      #a3a9b5  (muted stone, secondary text)
+Dim:            #4c566a  (subtle UI details)
+
+Syntax Highlighting
+Keyword:        #81a1c1  (frost blue, logical anchors)
+String:         #a3be8c  (moss green, organic data)
+Function:       #88c0d0  (polar cyan, action focus)
+Type:           #8fbcbb  (muted teal, structural definition)
+Constant:       #d08770  (terracotta, immutable values)
+Number:         #b48ead  (soft lilac, distinct data)
+Variable:       #d1d4d9  (neutral silver, matches foreground)
+Comment:        #5c6370 with italic (graphite gray)
+Operator:       #81a1c1  (matches keywords - structural)
+Builtin:        italic + #81a1c1 (frost blue)
+Preprocessor:   #5e81ac (steel blue)
+Escape:         #ebcb8b (amber gold, attention)
+Negation:       #bf616a (faded rose red)
+Warning:        #d08770 (amber, matching constant/warning)
+Punctuation:    #666f7a (dim graphite)
+Delimiter:      #4c566a (deep gray)
+Bracket:        #666f7a (slightly brighter than delimiters)
+
+Search & Interaction
+Cursor:         #ebcb8b (amber, warm focal point)
+Region:         #263345 (deep navy selection)
+Selection2:     #2e3440 (secondary contrast selection)
+Isearch:        #ebcb8b bg, #121417 fg (high-contrast golden search)
+Isearch-fail:   #2e3440 bg, #bf616a fg (muted red error)
+Lazy-hl:        #3b4252 bg (subtle storm blue hint)
+Match:          #434c5e bg (muted indigo)
+Next-error:     #3b222a bg (dim wine tint)
+Query-replace:  inherit isearch
+Trailing ws:    #4c566a bg (subtle gray block)
+
+Mode-line (Status Bar)
+Mode-line:           bg #1a1d23, fg #a3a9b5
+Mode-line-inactive:  bg #121417, fg #4c566a
+Mode-line-buffer-id: #81a1c1, bold
+Mode-line-emphasis:  bold, #d1d4d9
+Mode-line-highlight: box #2e3440
+
+Links & Buttons
+Link:           #88c0d0 (polar cyan, matching functions)
+Link-visited:   #b48ead (lilac, matching types/processed)
+Button:         inherit link
+
+UI Miscellaneous
+Fringe:         #121417 (seamless with background)
+Header-line:    bg #1a1d23, fg #5c6370
+Tooltip:        bg #1e222a, fg #d1d4d9
+
+Minibuffer & Feedback
+Minibuffer-prompt: #81a1c1 (frost blue - your command anchor)
+Highlight:      #1a1d23 bg
+
+Shadows & Glyphs
+Shadow:         #5c6370
+Escape-glyph:   #88c0d0
+Homoglyph:      #bf616a (warning color for suspicious characters)
